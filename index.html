@@ -1,0 +1,66 @@
+//Задание 2.10
+В скрипте объявлена переменная values, которая содержит массив из строк. В HTML-верстке есть два тега <div> с классами div1 и div2. Допишите скрипт так, чтобы все теги <p> из тега с идентификатором div1, значение которого встречается в списке values, переместились в тег с идентификатором div2.
+
+Пример значений:
+
+values = ["велосипед", "ролики", "лыжи"]
+Пример заданного HTML-документа:
+
+<div id="div1"><p>велосипед</p><p>лыжи</p><p>скейт</p></div>
+
+<div id="div2"></div>
+
+Пример результата в HTML-документе:
+
+<div id="div1"><p>скейт</p></div>
+
+<div id="div2"><p>велосипед</p><p>лыжи</p></div>//
+
+var div1 = document.querySelector('#div1');
+var div2 = document.querySelector('#div2');
+
+var child = div1.firstElementChild;
+while (child) {
+  if (values.indexOf(child.innerText) != -1) {
+      div2.appendChild(child);
+      child = div1.firstElementChild;
+      console.log(child.innerHTML);
+  }
+  else child = child.nextElementSibling;
+
+}
+console.log(div2.innerHTML);
+
+//Задание 2.13
+В HTML-документе есть тег <ul> с идентификатором tasks, и внутри него есть несколько тегов <li> с текстом. Напишите скрипт, который позволяет отсортировать элементы <li> в теге <ul> по длине содержимого.
+
+Пример заданного HTML-документа:
+
+<ul id="tasks">
+
+<li>Велосипед</li><li>Скейт</li><li>Самокат</li>
+
+</ul>
+
+Пример результата:
+
+<ul id="tasks">
+
+<li>Скейт</li><li>Самокат</li><li>Велосипед</li>
+
+</ul>
+//
+var li_tags = document.querySelector('#tasks').querySelectorAll('li');
+//console.log(li_tags.length);
+var li_array = Array.prototype.slice.call(li_tags);
+li_array.sort( function(a, b){
+      var a_len = a.innerText.length;
+      var b_len = b.innerText.length;
+      if (a_len > b_len) return 1;
+      if (a_len < b_len) return -1;
+      return 0;
+    }
+);
+li_tags.forEach(e => e.remove());
+li_array.forEach(e => document.querySelector('#tasks').appendChild(e));
+console.log(document.firstElementChild.firstChild.nextSibling.innerHTML);
